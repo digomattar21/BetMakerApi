@@ -71,6 +71,27 @@ router.get('/casino/getlikedgames', async (req, res) => {
   }
 
 
+});
+
+router.post('/casino/likegame', async (req, res) => {
+  const name = req.body.name;
+  const username = req.user.username;
+  try {
+    if (!username){
+      throw new Error('Sua sessao expirou')
+  }
+    let userBefore = await User.findOne({ username: username})
+    let likedGamesBefore = [...userBefore.likedGames];
+    likedGamesBefore.push(name)
+
+    let user = await User.findOneAndUpdate({ username: username}, {likedGames:likedGamesBefore}, {new:true})
+
+    res.status(201).json({likedGames: likedGamesBefore})
+    
+  } catch (error) {
+    console.log(error.message)
+    res.status(500).json({ message:error.message})
+  }
 })
 
 module.exports = router;
