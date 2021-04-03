@@ -33,7 +33,8 @@ const userSchema = new Schema(
     },
     betGroups: [{type: Schema.Types.ObjectId, ref:"BetGroup"}],
     activeBets: [{type: Schema.Types.ObjectId, ref:"Bet"}],
-    completedBets: [{type: Schema.Types.ObjectId, ref:"Bet"}]
+    completedBets: [{type: Schema.Types.ObjectId, ref:"Bet"}],
+    likedGames: [{type:String}]
   },
   {
     timestamps: true,

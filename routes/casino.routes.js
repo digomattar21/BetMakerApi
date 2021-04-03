@@ -50,4 +50,27 @@ router.post('/casino/blackjack/updateplayerchips', async (req, res) => {
   }
 });
 
+router.get('/casino/getlikedgames', async (req, res) => {
+  let username = req.user.username;
+
+  try{
+    if (!username){
+      throw new Error(`Sua sessao expirou`)
+    }
+
+    let user = await User.findOne({ username: username});
+
+    let likedGames = user.likedGames;
+
+    res.status(200).json({ likedGames: likedGames})
+
+
+  }catch(err){
+    console.log(err.message)
+    res.status(500).json({ message: err.message });
+  }
+
+
+})
+
 module.exports = router;
