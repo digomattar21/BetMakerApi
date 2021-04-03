@@ -39,7 +39,7 @@ router.post('/casino/blackjack/updateplayerchips', async (req, res) => {
   try {
     let user = await User.findOneAndUpdate(
       { username: username },
-      { money: newChipsAmount / 100 },
+      { money: newChipsAmount / 100 },{new:true}
     );
     res.status(200).json({ user: user });
   } catch (error) {
