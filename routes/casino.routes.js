@@ -41,7 +41,9 @@ router.post('/casino/blackjack/updateplayerchips', async (req, res) => {
       { username: username },
       { money: newChipsAmount / 100 },{new:true}
     );
-    res.status(200).json({ user: user });
+
+    let chips = user.money*100;
+    res.status(200).json({ chips: chips });
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ message: error.message });
