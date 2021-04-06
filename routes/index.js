@@ -49,9 +49,16 @@ router.get('/events/inplay', async (req, res) => {
 router.get('/sports/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    let url = `https://api.the-odds-api.com/v3/odds/?apiKey=${process.env.ODDS_API_KEY}&sport=${id}&region=uk&mkt=h2h`;
-    let request = await axios.get(url);
-    res.send(request.data.data);
+    let h2hUrl = `https://api.the-odds-api.com/v3/odds/?apiKey=${process.env.ODDS_API_KEY}&sport=${id}&region=uk&mkt=h2h`;
+    let spreadUrl = `https://api.the-odds-api.com/v3/odds/?apiKey=${process.env.ODDS_API_KEY}&sport=${id}&region=uk&mkt=spreads`;
+    let totalsUrl = `https://api.the-odds-api.com/v3/odds/?apiKey=${process.env.ODDS_API_KEY}&sport=${id}&region=uk&mkt=totals`;
+
+    let h2hReq = await axios.get(h2hUrl);
+    let spreadsReq = await axios.get(spreadUrl);
+    let totalsReq = await axios.get(totalsUrl);
+
+
+    res.send([h2hReq.data.data, spreadsReq.data.data, totalsReq.data.data]);
   } catch (error) {
     console.log(error);
   }
