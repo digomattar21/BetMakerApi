@@ -19,12 +19,14 @@ const index = require('./routes/index');
 const auth = require('./routes/auth.routes');
 const casino = require('./routes/casino.routes');
 const user = require('./routes/user.routes');
+const soccer = require('./routes/soccer.routes')
 
 //Rotas
 app.use('/', index);
 
 //Rotas publicas
 app.use('/', auth);
+app.use('/', soccer)
 
 //Middleware validacao de token jwt
 app.use(require('./middlewares/authmiddleware'));
