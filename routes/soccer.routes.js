@@ -6,10 +6,11 @@ const User = require("../models/User.model");
 
 soccerRouter.get("/soccer/odds/today", async (req, res) => {
   try {
-    let today = new Date();
-    today = today.toISOString().split("T")[0];
-    console.log('todays date: ', today)
-    let url = `https://api-football-v1.p.rapidapi.com/v3/odds/?date=${today}`;
+    const today = new Date()
+    var tomorroww = new Date(today)
+    tomorroww.setDate(tomorroww.getDate())
+    let tomorrow = tomorroww.toISOString().split('T')[0]
+    let url = `https://api-football-v1.p.rapidapi.com/v3/odds/?date=${tomorrow}`;
     let req = await axios.get(url, {
       headers: {
         "x-rapidapi-key": "f974ebfb2fmsh58c9d9268e1cfb0p14b20djsnf261ee8b582b",
@@ -18,7 +19,7 @@ soccerRouter.get("/soccer/odds/today", async (req, res) => {
       }
     });
     console.log(req.data.response)
-    res.status(200).json({matches: req.data.response})
+    res.status(200).json({matches: req.data.response, tomorrow: tomorrow})
 
 
   } catch (err) {
