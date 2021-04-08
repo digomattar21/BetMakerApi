@@ -1,4 +1,4 @@
-
+require('dotenv').config()
 const axios = require('axios');
 
 async function makeReqByUrl(url,page=1){

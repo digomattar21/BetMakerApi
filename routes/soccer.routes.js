@@ -12,7 +12,7 @@ soccerRouter.get("/soccer/odds/today", async (req, res) => {
     var tomorroww = new Date(today)
     tomorroww.setDate(tomorroww.getDate()+1)
     let tomorrow = tomorroww.toISOString().split('T')[0]
-    let url = `https://api-football-v1.p.rapidapi.com/v3/odds/?date=${tomorrow}`;
+    let url = `https://api-football-v1.p.rapidapi.com/v3/odds/?date=${tomorrow}&timezone=America/Bahia`;
     let req = await axios.get(url, {
       headers: {
         "x-rapidapi-key": `${process.env.SOCCER_API_KEY}`,
