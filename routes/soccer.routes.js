@@ -3,25 +3,23 @@ const express = require("express");
 const soccerRouter = express.Router();
 const axios = require("axios");
 const User = require("../models/User.model");
-const getNextNDates = require('../util/getNextNDates')
-const makeReqByUrl = require('../util/makeReqByUrl')
+const getNextNDates = require('../util/routes_util/getNextNDates')
+const makeReqByUrl = require('../util/routes_util/makeReqByUrl')
 
-soccerRouter.get("/soccer/odds/today", async (req, res) => {
+soccerRouter.get("/soccer/odds/today/:page", async (req, res) => {
+  const {page} = req.params;
   try {
     const today = new Date()
     var tomorroww = new Date(today)
     tomorroww.setDate(tomorroww.getDate()+1)
     let tomorrow = tomorroww.toISOString().split('T')[0]
     let url = `https://api-football-v1.p.rapidapi.com/v3/odds/?date=${tomorrow}&timezone=America/Bahia`;
-    let req = await axios.get(url, {
-      headers: {
-        "x-rapidapi-key": `${process.env.SOCCER_API_KEY}`,
-        "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
-        useQueryString: true,
-      }
-    });
-    console.log(req.data.response)
-    res.status(200).json({matches: req.data.response, tomorrow: tomorrow})
+    
+    let req = await makeReqByUrl(url,page)
+
+    let matchesArray=[]
+    matchesArray.push(req.response)
+    res.status(200).json({matches: matchesArray})
 
 
   } catch (err) {
@@ -31,8 +29,8 @@ soccerRouter.get("/soccer/odds/today", async (req, res) => {
 });
 
 
-soccerRouter.get('/soccer/odds/next3', async (req, res) => {
-
+soccerRouter.get('/soccer/odds/next3/:page', async (req, res) => {
+  const {page} = req.params;
   try {
     let [date1,date2,date3] = getNextNDates(3)
     let url1 = `https://api-football-v1.p.rapidapi.com/v3/odds/?date=${date1}&timezone=America/Bahia`;
@@ -40,9 +38,9 @@ soccerRouter.get('/soccer/odds/next3', async (req, res) => {
     let url3 = `https://api-football-v1.p.rapidapi.com/v3/odds/?date=${date3}&timezone=America/Bahia`;
 
 
-    let req1 = await makeReqByUrl(url1);
-    let req2 = await makeReqByUrl(url2);
-    let req3 = await makeReqByUrl(url3);
+    let req1 = await makeReqByUrl(url1,page);
+    let req2 = await makeReqByUrl(url2,page);
+    let req3 = await makeReqByUrl(url3,page);
     
     let matchesArray = [];
     matchesArray.push(req1.response)
@@ -60,8 +58,8 @@ soccerRouter.get('/soccer/odds/next3', async (req, res) => {
 
 });
 
-soccerRouter.get('/soccer/odds/week', async (req, res) => {
-
+soccerRouter.get('/soccer/odds/week/:page', async (req, res) => {
+  const {page} = req.params;
   try {
     let [date1,date2,date3,date4,date5,date6,date7] = getNextNDates(7)
     let url1 = `https://api-football-v1.p.rapidapi.com/v3/odds/?date=${date1}&timezone=America/Bahia`;
@@ -72,13 +70,13 @@ soccerRouter.get('/soccer/odds/week', async (req, res) => {
     let url6 = `https://api-football-v1.p.rapidapi.com/v3/odds/?date=${date6}&timezone=America/Bahia`;
     let url7 = `https://api-football-v1.p.rapidapi.com/v3/odds/?date=${date7}&timezone=America/Bahia`;
 
-    let req1 = await makeReqByUrl(url1);
-    let req2 = await makeReqByUrl(url2);
-    let req3 = await makeReqByUrl(url3);
-    let req4 = await makeReqByUrl(url4);
-    let req5 = await makeReqByUrl(url5);
-    let req6 = await makeReqByUrl(url6);
-    let req7 = await makeReqByUrl(url7);
+    let req1 = await makeReqByUrl(url1,page);
+    let req2 = await makeReqByUrl(url2,page);
+    let req3 = await makeReqByUrl(url3,page);
+    let req4 = await makeReqByUrl(url4,page);
+    let req5 = await makeReqByUrl(url5,page);
+    let req6 = await makeReqByUrl(url6,page);
+    let req7 = await makeReqByUrl(url7,page);
 
     
     let matchesArray = [];
