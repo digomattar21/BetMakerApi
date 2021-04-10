@@ -19,7 +19,8 @@ const index = require('./routes/index');
 const auth = require('./routes/auth.routes');
 const casino = require('./routes/casino.routes');
 const user = require('./routes/user.routes');
-const soccer = require('./routes/soccer.routes')
+const soccer = require('./routes/soccer.routes');
+const sports = require('./routes/sports.routes');
 
 //Rotas
 app.use('/', index);
@@ -27,6 +28,7 @@ app.use('/', index);
 //Rotas publicas
 app.use('/', auth);
 app.use('/', soccer)
+app.use('/', sports)
 
 //Middleware validacao de token jwt
 app.use(require('./middlewares/authmiddleware'));
